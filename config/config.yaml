@@ -1,0 +1,18 @@
+server:
+  port: 8080
+  environment: development
+
+database:
+  driver: in_memory
+  # Untuk PostgreSQL production:
+  # driver: postgres
+  # host: localhost
+  # port: 5432
+  # user: postgres
+  # password: postgres
+  # dbname: employee_db
+  # sslmode: disable
+
+logging:
+  level: debug
+  format: json

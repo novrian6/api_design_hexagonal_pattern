@@ -1,7 +1,7 @@
-// internal/employee/model.go
-package employee
+// internal/domain/employee.go
+package domain
 
-// Employee struct merepresentasikan entitas bisnis
+// Employee merepresentasikan entitas bisnis inti
 type Employee struct {
 	ID       string  `json:"id"`
 	Name     string  `json:"name" validate:"required"`

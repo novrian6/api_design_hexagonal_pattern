@@ -1,0 +1,37 @@
+[
+  {
+    "id": "EMP-001",
+    "name": "John Doe",
+    "position": "Software Engineer",
+    "salary": 5000000.00,
+    "email": "john.doe@example.com"
+  },
+  {
+    "id": "EMP-002",
+    "name": "Jane Smith",
+    "position": "Product Manager",
+    "salary": 7500000.00,
+    "email": "jane.smith@example.com"
+  },
+  {
+    "id": "EMP-003",
+    "name": "Bob Johnson",
+    "position": "DevOps Engineer",
+    "salary": 6000000.00,
+    "email": "bob.johnson@example.com"
+  },
+  {
+    "id": "EMP-004",
+    "name": "Alice Williams",
+    "position": "UI/UX Designer",
+    "salary": 4500000.00,
+    "email": "alice.williams@example.com"
+  },
+  {
+    "id": "EMP-005",
+    "name": "Charlie Brown",
+    "position": "Data Scientist",
+    "salary": 8000000.00,
+    "email": "charlie.brown@example.com"
+  }
+]

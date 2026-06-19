@@ -1,0 +1,235 @@
+openapi: "3.0.3"
+info:
+  title: Employee Service API
+  description: REST API untuk manajemen data Employee — Hexagonal Architecture
+  version: "1.0.0"
+  contact:
+    name: Developer
+    url: https://github.com/novrian6/api_design_hexagonal_pattern
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Local development server
+
+paths:
+  /employees:
+    get:
+      summary: Get all employees
+      operationId: getAllEmployees
+      tags:
+        - Employees
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Employee"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    post:
+      summary: Create a new employee
+      operationId: createEmployee
+      tags:
+        - Employees
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateEmployeeRequest"
+      responses:
+        "201":
+          description: Employee created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Employee"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "409":
+          $ref: "#/components/responses/Conflict"
+
+  /employees/{employeeId}:
+    get:
+      summary: Get employee by ID
+      operationId: getEmployeeById
+      tags:
+        - Employees
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "EMP-001"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Employee"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    put:
+      summary: Update an existing employee
+      operationId: updateEmployee
+      tags:
+        - Employees
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "EMP-001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateEmployeeRequest"
+      responses:
+        "200":
+          description: Employee updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Employee"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    delete:
+      summary: Delete an employee
+      operationId: deleteEmployee
+      tags:
+        - Employees
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "EMP-001"
+      responses:
+        "204":
+          description: Employee deleted successfully (no content)
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+components:
+  schemas:
+    Employee:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "EMP-001"
+        name:
+          type: string
+          example: "John Doe"
+        position:
+          type: string
+          example: "Software Engineer"
+        salary:
+          type: number
+          format: float
+          example: 5000000.00
+        email:
+          type: string
+          format: email
+          example: "john.doe@example.com"
+      required:
+        - id
+        - name
+        - email
+
+    CreateEmployeeRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "John Doe"
+        position:
+          type: string
+          example: "Software Engineer"
+        salary:
+          type: number
+          format: float
+          example: 5000000.00
+        email:
+          type: string
+          format: email
+          example: "john.doe@example.com"
+      required:
+        - name
+        - email
+
+    ApiResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Operation successful"
+        data:
+          type: object
+        error:
+          type: string
+          example: "Error message"
+
+  responses:
+    BadRequest:
+      description: Bad request — invalid input
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiResponse"
+          example:
+            success: false
+            error: "Key: 'Employee.Name' Error:Field validation for 'Name' failed on the 'required' tag"
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiResponse"
+          example:
+            success: false
+            error: "employee not found"
+
+    Conflict:
+      description: Resource conflict (e.g., duplicate email)
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiResponse"
+          example:
+            success: false
+            error: "email already exists"
+
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiResponse"
+          example:
+            success: false
+            error: "internal server error"
